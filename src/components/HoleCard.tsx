@@ -32,6 +32,14 @@ export default function HoleCard({ hole, onChange }: Props) {
     onChange({ ...hole, shots: [...hole.shots, createShot()] })
   }
 
+  function toggleShots() {
+    if (!hole.shotsVisible && hole.shots.length === 0) {
+      onChange({ ...hole, shotsVisible: true, shots: Array.from({ length: hole.par }, createShot) })
+    } else {
+      onChange({ ...hole, shotsVisible: !hole.shotsVisible })
+    }
+  }
+
   return (
     <div className="rounded-2xl bg-white/70 p-3 shadow-sm">
       <div className="flex flex-wrap items-center gap-x-2 gap-y-2">
@@ -66,7 +74,7 @@ export default function HoleCard({ hole, onChange }: Props) {
 
         <button
           type="button"
-          onClick={() => onChange({ ...hole, shotsVisible: !hole.shotsVisible })}
+          onClick={toggleShots}
           className="shrink-0 text-sm font-medium text-green-700"
         >
           {hole.shotsVisible ? '▲ Hide shots' : '▼ 샷 기록'}
