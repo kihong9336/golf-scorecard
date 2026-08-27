@@ -1,4 +1,4 @@
-import { CLUBS, type Shot, type ShotDirection, type ShotTag } from '../types'
+import { CLUBS, CLUB_LABELS, type Shot, type ShotDirection, type ShotTag } from '../types'
 
 interface Props {
   shot: Shot
@@ -40,7 +40,7 @@ export default function ShotRow({ shot, index, onChange, onDelete }: Props) {
         <option value="">Club</option>
         {CLUBS.map((c) => (
           <option key={c} value={c}>
-            {c}
+            {CLUB_LABELS[c]}
           </option>
         ))}
       </select>

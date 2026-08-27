@@ -19,6 +19,25 @@ export const CLUBS = [
 
 export type Club = (typeof CLUBS)[number]
 
+export const CLUB_LABELS: Record<Club, string> = {
+  Driver: 'Driver',
+  '3W': '3W',
+  '5W': '5W',
+  Hybrid: 'Hybrid',
+  '3i': '3i',
+  '4i': '4i',
+  '5i': '5i',
+  '6i': '6i',
+  '7i': '7i',
+  '8i': '8i',
+  '9i': '9i',
+  PW: 'PW',
+  GW: 'GW(48)',
+  SW: 'SW(54)',
+  LW: 'LW(58)',
+  Putt: 'Putt',
+}
+
 export type ShotTag = 'OB' | 'HZD' | 'FW' | 'BK' | null
 
 export type ShotDirection = 'L' | 'C' | 'R' | null
