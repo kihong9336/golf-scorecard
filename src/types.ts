@@ -19,7 +19,7 @@ export const CLUBS = [
 
 export type Club = (typeof CLUBS)[number]
 
-export type ShotTag = 'OB' | 'HZD' | null
+export type ShotTag = 'OB' | 'HZD' | 'FW' | 'BK' | null
 
 export type ShotDirection = 'L' | 'C' | 'R' | null
 
