@@ -42,7 +42,7 @@ export default function HoleCard({ hole, onChange }: Props) {
           <select
             value={hole.par}
             onChange={(e) => onChange({ ...hole, par: Number(e.target.value) as 3 | 4 | 5 })}
-            className="rounded-lg border border-stone-300 bg-white px-1.5 py-1 text-sm text-stone-700"
+            className="rounded-lg border border-stone-300 bg-white px-1.5 py-1 text-base text-stone-700"
           >
             <option value={3}>3</option>
             <option value={4}>4</option>
@@ -59,7 +59,7 @@ export default function HoleCard({ hole, onChange }: Props) {
             onChange={(e) =>
               onChange({ ...hole, distance: e.target.value === '' ? null : Number(e.target.value) })
             }
-            className="w-16 rounded-lg border border-stone-300 bg-white px-2 py-1 text-center text-sm text-stone-700"
+            className="w-16 rounded-lg border border-stone-300 bg-white px-2 py-1 text-center text-base text-stone-700"
           />
           <span className="text-sm text-stone-400">m</span>
         </div>
@@ -127,7 +127,7 @@ export default function HoleCard({ hole, onChange }: Props) {
             onChange={(e) => onChange({ ...hole, notes: e.target.value })}
             placeholder="이 홀 특이사항 (예: 벙커 탈출 2회, 퍼팅 라이 어려움)"
             rows={2}
-            className="mt-2 w-full resize-none rounded-xl border border-stone-200 bg-cream-50 px-3 py-2 text-sm text-stone-600 placeholder:text-stone-400"
+            className="mt-2 w-full resize-none rounded-xl border border-stone-200 bg-cream-50 px-3 py-2 text-base text-stone-600 placeholder:text-stone-400"
           />
         </div>
       )}

@@ -28,7 +28,7 @@ export default function ScorecardPage({ round, onChange, onNewRound, onSaveRound
           value={round.courseName}
           onChange={(e) => onChange({ ...round, courseName: e.target.value })}
           placeholder="Tap to enter course name"
-          className="min-w-0 flex-1 bg-transparent text-[15px] text-stone-500 placeholder:text-stone-400 focus:outline-none"
+          className="min-w-0 flex-1 bg-transparent text-base text-stone-500 placeholder:text-stone-400 focus:outline-none"
         />
         <span className="text-lg">✎</span>
       </div>

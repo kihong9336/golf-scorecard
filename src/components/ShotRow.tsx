@@ -43,7 +43,7 @@ export default function ShotRow({ shot, index, onChange, onDelete }: Props) {
       <select
         value={shot.club ?? ''}
         onChange={(e) => onChange({ ...shot, club: (e.target.value || null) as Shot['club'] })}
-        className="min-w-0 flex-[1.3] rounded-lg border border-stone-300 bg-white px-2 py-2 text-sm text-stone-700"
+        className="min-w-0 flex-[1.3] rounded-lg border border-stone-300 bg-white px-2 py-2 text-base text-stone-700"
       >
         <option value="">Club</option>
         {CLUBS.map((c) => (
@@ -80,7 +80,7 @@ export default function ShotRow({ shot, index, onChange, onDelete }: Props) {
         onChange={(e) =>
           onChange({ ...shot, distance: e.target.value === '' ? null : Number(e.target.value) })
         }
-        className="w-16 min-w-0 flex-1 rounded-lg border border-stone-300 bg-white px-2 py-2 text-center text-sm text-stone-700"
+        className="w-16 min-w-0 flex-1 rounded-lg border border-stone-300 bg-white px-2 py-2 text-center text-base text-stone-700"
       />
 
       <button
