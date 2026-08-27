@@ -23,7 +23,14 @@ export default function HistoryPage({ rounds, onOpenRound, onDeleteRound }: Prop
         return (
           <div key={r.id} className="flex items-center gap-2 rounded-2xl bg-white/70 p-4">
             <button type="button" onClick={() => onOpenRound(r.id)} className="min-w-0 flex-1 text-left">
-              <div className="font-semibold text-stone-800">{r.courseName || '이름 없는 코스'}</div>
+              <div className="flex items-center gap-1.5">
+                <span className="font-semibold text-stone-800">{r.courseName || '이름 없는 코스'}</span>
+                {r.status === 'active' && (
+                  <span className="rounded-full bg-green-900/10 px-1.5 py-0.5 text-[10px] font-semibold text-green-800">
+                    진행중
+                  </span>
+                )}
+              </div>
               <div className="text-xs text-stone-400">
                 {new Date(r.date).toLocaleDateString('ko-KR')}
               </div>

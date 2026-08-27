@@ -4,11 +4,11 @@ import HoleCard from '../components/HoleCard'
 interface Props {
   round: Round
   onChange: (round: Round) => void
-  onNewRound: () => void
   onSaveRound: () => void
+  onCloseRound: () => void
 }
 
-export default function ScorecardPage({ round, onChange, onNewRound, onSaveRound }: Props) {
+export default function ScorecardPage({ round, onChange, onSaveRound, onCloseRound }: Props) {
   const front9 = round.holes.slice(0, 9)
   const back9 = round.holes.slice(9, 18)
   const par = PAR_TOTAL(round.holes)
@@ -67,17 +67,19 @@ export default function ScorecardPage({ round, onChange, onNewRound, onSaveRound
       <div className="fixed inset-x-0 bottom-0 mx-auto flex max-w-md gap-3 border-t border-stone-200 bg-cream-50 px-4 py-3">
         <button
           type="button"
-          onClick={onNewRound}
+          onClick={onSaveRound}
           className="flex-1 rounded-xl bg-stone-200 py-3 font-semibold text-stone-600 active:bg-stone-300"
         >
-          New Round
+          Save Round
         </button>
         <button
           type="button"
-          onClick={onSaveRound}
+          onClick={() => {
+            if (confirm('라운드를 종료할까요? 종료 후에는 새 라운드를 시작할 수 있어요.')) onCloseRound()
+          }}
           className="flex-1 rounded-xl bg-green-900 py-3 font-semibold text-white active:bg-green-800"
         >
-          Save Round
+          Close Round
         </button>
       </div>
     </div>

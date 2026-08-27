@@ -10,11 +10,12 @@ interface Props {
 
 export default function HomePage({ currentRound, rounds, onContinue, onNewRound, onOpenRound }: Props) {
   const played = HOLES_PLAYED(currentRound.holes)
+  const hasActiveRound = currentRound.status === 'active' && played > 0
   const recent = rounds.slice(0, 3)
 
   return (
     <div className="space-y-5 px-4 py-5">
-      {played > 0 && (
+      {hasActiveRound && (
         <button
           type="button"
           onClick={onContinue}

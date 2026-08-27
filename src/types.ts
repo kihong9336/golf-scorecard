@@ -41,12 +41,15 @@ export interface Hole {
   shotsVisible: boolean
 }
 
+export type RoundStatus = 'active' | 'closed'
+
 export interface Round {
   id: string
   courseName: string
   date: string
   holes: Hole[]
   savedAt: string | null
+  status: RoundStatus
 }
 
 export function createEmptyHole(number: number): Hole {
@@ -68,6 +71,7 @@ export function createEmptyRound(): Round {
     date: new Date().toISOString(),
     holes: Array.from({ length: 18 }, (_, i) => createEmptyHole(i + 1)),
     savedAt: null,
+    status: 'active',
   }
 }
 

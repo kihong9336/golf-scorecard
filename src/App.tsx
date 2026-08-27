@@ -9,7 +9,10 @@ import { loadCurrentRound, loadRounds, saveCurrentRound, saveRounds } from './st
 
 export default function App() {
   const [tab, setTab] = useState<TabKey>('home')
-  const [currentRound, setCurrentRound] = useState<Round>(() => loadCurrentRound() ?? createEmptyRound())
+  const [currentRound, setCurrentRound] = useState<Round>(() => {
+    const loaded = loadCurrentRound()
+    return loaded ? { ...loaded, status: loaded.status ?? 'active' } : createEmptyRound()
+  })
   const [rounds, setRounds] = useState<Round[]>(() => loadRounds())
 
   useEffect(() => {
@@ -20,8 +23,16 @@ export default function App() {
     saveRounds(rounds)
   }, [rounds])
 
+  function upsertRound(round: Round) {
+    setRounds((prev) => {
+      const exists = prev.some((r) => r.id === round.id)
+      const next = exists ? prev.map((r) => (r.id === round.id ? round : r)) : [round, ...prev]
+      return next.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+    })
+  }
+
   function handleNewRound() {
-    const hasProgress = currentRound.holes.some((h) => h.score !== null)
+    const hasProgress = currentRound.status === 'active' && currentRound.holes.some((h) => h.score !== null)
     if (hasProgress && !confirm('현재 라운드 기록이 저장되지 않았어요. 새 라운드를 시작할까요?')) {
       return
     }
@@ -31,13 +42,16 @@ export default function App() {
 
   function handleSaveRound() {
     const savedRound: Round = { ...currentRound, savedAt: new Date().toISOString() }
-    setRounds((prev) => {
-      const exists = prev.some((r) => r.id === savedRound.id)
-      const next = exists ? prev.map((r) => (r.id === savedRound.id ? savedRound : r)) : [savedRound, ...prev]
-      return next.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
-    })
+    upsertRound(savedRound)
     setCurrentRound(savedRound)
     alert('라운드가 저장되었습니다.')
+  }
+
+  function handleCloseRound() {
+    const closedRound: Round = { ...currentRound, savedAt: new Date().toISOString(), status: 'closed' }
+    upsertRound(closedRound)
+    setCurrentRound(createEmptyRound())
+    setTab('home')
   }
 
   function handleOpenRound(id: string) {
@@ -71,8 +85,8 @@ export default function App() {
         <ScorecardPage
           round={currentRound}
           onChange={setCurrentRound}
-          onNewRound={handleNewRound}
           onSaveRound={handleSaveRound}
+          onCloseRound={handleCloseRound}
         />
       )}
 
