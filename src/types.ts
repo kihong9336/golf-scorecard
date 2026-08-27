@@ -21,11 +21,14 @@ export type Club = (typeof CLUBS)[number]
 
 export type ShotTag = 'OB' | 'HZD' | null
 
+export type ShotDirection = 'L' | 'C' | 'R' | null
+
 export interface Shot {
   id: string
   club: Club | null
   distance: number | null
   tag: ShotTag
+  direction: ShotDirection
 }
 
 export interface Hole {
@@ -69,7 +72,7 @@ export function createEmptyRound(): Round {
 }
 
 export function createShot(): Shot {
-  return { id: crypto.randomUUID(), club: null, distance: null, tag: null }
+  return { id: crypto.randomUUID(), club: null, distance: null, tag: null, direction: null }
 }
 
 export const PAR_TOTAL = (holes: Hole[]) => holes.reduce((sum, h) => sum + h.par, 0)

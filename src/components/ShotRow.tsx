@@ -1,4 +1,4 @@
-import { CLUBS, type Shot, type ShotTag } from '../types'
+import { CLUBS, type Shot, type ShotDirection, type ShotTag } from '../types'
 
 interface Props {
   shot: Shot
@@ -10,16 +10,8 @@ interface Props {
 const TAG_CYCLE: ShotTag[] = [null, 'OB', 'HZD']
 
 export default function ShotRow({ shot, index, onChange, onDelete }: Props) {
-  const clubIndex = shot.club ? CLUBS.indexOf(shot.club) : -1
-
-  function stepClub(delta: number) {
-    let next: number
-    if (clubIndex === -1) {
-      next = delta > 0 ? 0 : CLUBS.length - 1
-    } else {
-      next = Math.min(CLUBS.length - 1, Math.max(0, clubIndex + delta))
-    }
-    onChange({ ...shot, club: CLUBS[next] })
+  function setDirection(dir: ShotDirection) {
+    onChange({ ...shot, direction: shot.direction === dir ? null : dir })
   }
 
   function cycleTag() {
@@ -56,17 +48,34 @@ export default function ShotRow({ shot, index, onChange, onDelete }: Props) {
       <div className="flex shrink-0 overflow-hidden rounded-lg border border-stone-300 bg-white">
         <button
           type="button"
-          onClick={() => stepClub(-1)}
-          className="px-2 py-2 text-stone-400 active:bg-stone-100"
-          aria-label="이전 클럽"
+          onClick={() => setDirection('L')}
+          className={
+            'px-2 py-2 active:bg-stone-100 ' +
+            (shot.direction === 'L' ? 'bg-green-900 text-white' : 'text-stone-400')
+          }
+          aria-label="왼쪽으로 감"
         >
           ◀
         </button>
         <button
           type="button"
-          onClick={() => stepClub(1)}
-          className="border-l border-stone-300 px-2 py-2 text-stone-400 active:bg-stone-100"
-          aria-label="다음 클럽"
+          onClick={() => setDirection('C')}
+          className={
+            'border-l border-stone-300 px-2 py-2 active:bg-stone-100 ' +
+            (shot.direction === 'C' ? 'bg-green-900 text-white' : 'text-stone-400')
+          }
+          aria-label="똑바로 감"
+        >
+          ▲
+        </button>
+        <button
+          type="button"
+          onClick={() => setDirection('R')}
+          className={
+            'border-l border-stone-300 px-2 py-2 active:bg-stone-100 ' +
+            (shot.direction === 'R' ? 'bg-green-900 text-white' : 'text-stone-400')
+          }
+          aria-label="오른쪽으로 감"
         >
           ▶
         </button>
