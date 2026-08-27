@@ -38,9 +38,29 @@ export const CLUB_LABELS: Record<Club, string> = {
   Putt: 'Putt',
 }
 
-export type ShotTag = 'OB' | 'HZD' | 'FW' | 'BK' | 'GR' | null
+export type ShotTag = 'OB' | 'HZD' | 'FW' | 'BK' | 'GR' | 'RF' | null
 
 export type ShotDirection = 'L' | 'C' | 'R' | null
+
+export type ClubCategory = 'wood' | 'iron' | 'putter'
+
+const WOOD_CLUBS: Club[] = ['Driver', '3W', '5W']
+
+export function clubCategory(club: Club | null): ClubCategory {
+  if (club === 'Putt') return 'putter'
+  if (club !== null && WOOD_CLUBS.includes(club)) return 'wood'
+  return 'iron'
+}
+
+export const TAG_CYCLE_BY_CATEGORY: Record<ClubCategory, ShotTag[]> = {
+  wood: ['FW', 'RF', 'HZD', 'OB', 'BK', 'GR'],
+  iron: ['FW', 'RF', 'GR', 'BK', 'HZD', 'OB'],
+  putter: ['GR', 'FW', 'RF', 'BK', 'HZD', 'OB'],
+}
+
+export function defaultTagForClub(club: Club | null): ShotTag {
+  return TAG_CYCLE_BY_CATEGORY[clubCategory(club)][0]
+}
 
 export interface Shot {
   id: string
@@ -95,7 +115,7 @@ export function createEmptyRound(): Round {
 }
 
 export function createShot(): Shot {
-  return { id: crypto.randomUUID(), club: null, distance: null, tag: 'FW', direction: null }
+  return { id: crypto.randomUUID(), club: null, distance: null, tag: defaultTagForClub(null), direction: null }
 }
 
 export const PAR_TOTAL = (holes: Hole[]) => holes.reduce((sum, h) => sum + h.par, 0)

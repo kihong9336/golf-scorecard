@@ -1,4 +1,12 @@
-import { CLUBS, CLUB_LABELS, type Shot, type ShotDirection, type ShotTag } from '../types'
+import {
+  CLUBS,
+  CLUB_LABELS,
+  TAG_CYCLE_BY_CATEGORY,
+  clubCategory,
+  defaultTagForClub,
+  type Shot,
+  type ShotDirection,
+} from '../types'
 
 interface Props {
   shot: Shot
@@ -7,16 +15,33 @@ interface Props {
   onDelete: () => void
 }
 
-const TAG_CYCLE: ShotTag[] = [null, 'FW', 'GR', 'BK', 'HZD', 'OB']
+const TAG_COLOR_CLASS: Record<string, string> = {
+  OB: 'bg-[var(--color-tag-ob)] text-white',
+  HZD: 'bg-[var(--color-tag-hzd)] text-white',
+  FW: 'bg-[var(--color-tag-fw)] text-white',
+  BK: 'bg-[var(--color-tag-bk)] text-white',
+  GR: 'bg-[var(--color-tag-gr)] text-white',
+  RF: 'bg-[var(--color-tag-rf)] text-white',
+}
 
 export default function ShotRow({ shot, index, onChange, onDelete }: Props) {
   function setDirection(dir: ShotDirection) {
     onChange({ ...shot, direction: shot.direction === dir ? null : dir })
   }
 
+  function handleClubChange(newClub: Shot['club']) {
+    const categoryChanged = clubCategory(newClub) !== clubCategory(shot.club)
+    onChange({
+      ...shot,
+      club: newClub,
+      tag: categoryChanged ? defaultTagForClub(newClub) : shot.tag,
+    })
+  }
+
   function cycleTag() {
-    const currentIdx = TAG_CYCLE.indexOf(shot.tag)
-    const next = TAG_CYCLE[(currentIdx + 1) % TAG_CYCLE.length]
+    const cycle = TAG_CYCLE_BY_CATEGORY[clubCategory(shot.club)]
+    const currentIdx = cycle.indexOf(shot.tag)
+    const next = cycle[(currentIdx + 1) % cycle.length]
     onChange({ ...shot, tag: next })
   }
 
@@ -34,7 +59,7 @@ export default function ShotRow({ shot, index, onChange, onDelete }: Props) {
 
       <select
         value={shot.club ?? ''}
-        onChange={(e) => onChange({ ...shot, club: (e.target.value || null) as Shot['club'] })}
+        onChange={(e) => handleClubChange((e.target.value || null) as Shot['club'])}
         className="min-w-0 flex-[1.3] rounded-lg border border-stone-300 bg-white px-2 py-2 text-base text-stone-700"
       >
         <option value="">Club</option>
@@ -97,17 +122,7 @@ export default function ShotRow({ shot, index, onChange, onDelete }: Props) {
         onClick={cycleTag}
         className={
           'w-12 shrink-0 rounded-lg py-2 text-center text-[11px] font-bold ' +
-          (shot.tag === 'OB'
-            ? 'bg-[var(--color-tag-ob)] text-white'
-            : shot.tag === 'HZD'
-              ? 'bg-[var(--color-tag-hzd)] text-white'
-              : shot.tag === 'FW'
-                ? 'bg-[var(--color-tag-fw)] text-white'
-                : shot.tag === 'BK'
-                  ? 'bg-[var(--color-tag-bk)] text-white'
-                  : shot.tag === 'GR'
-                    ? 'bg-[var(--color-tag-gr)] text-white'
-                    : 'bg-stone-100 text-stone-300')
+          (shot.tag ? TAG_COLOR_CLASS[shot.tag] : 'bg-stone-100 text-stone-300')
         }
       >
         {shot.tag ?? '-'}
