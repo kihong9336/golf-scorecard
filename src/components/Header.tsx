@@ -16,7 +16,7 @@ export default function Header({ holes }: Props) {
           <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-white/10 text-2xl">
             🏌️
           </div>
-          <div className="text-2xl font-bold tracking-tight">The Green</div>
+          <div className="text-2xl font-bold tracking-tight">Kihong's Scoreboard</div>
         </div>
         {played > 0 && (
           <div className="text-right">
