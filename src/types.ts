@@ -40,7 +40,55 @@ export const CLUB_LABELS: Record<Club, string> = {
 
 export type ShotTag = 'OB' | 'HZD' | 'FW' | 'BK' | 'GR' | 'RF' | null
 
-export type ShotDirection = 'L' | 'C' | 'R' | null
+export const FULL_SWING_SHAPES = [
+  'STRAIGHT',
+  'DRAW',
+  'FADE',
+  'SLICE',
+  'HOOK',
+  'PUSH',
+  'PULL',
+  'TOP',
+  'FAT',
+  'SHANK',
+] as const
+
+export const SHORT_GAME_SHAPES = ['GOOD', 'L_LONG', 'L_SHORT', 'R_LONG', 'R_SHORT', 'M_LONG', 'M_SHORT'] as const
+
+export type ShotShape = (typeof FULL_SWING_SHAPES)[number] | (typeof SHORT_GAME_SHAPES)[number] | null
+
+export const SHOT_SHAPE_LABELS: Record<Exclude<ShotShape, null>, string> = {
+  STRAIGHT: '스트레이트',
+  DRAW: '드로우',
+  FADE: '페이드',
+  SLICE: '슬라이스',
+  HOOK: '훅',
+  PUSH: '푸쉬',
+  PULL: '풀',
+  TOP: '탑볼',
+  FAT: '뒷땅',
+  SHANK: '생크',
+  GOOD: 'Good',
+  L_LONG: 'L - long',
+  L_SHORT: 'L - short',
+  R_LONG: 'R - long',
+  R_SHORT: 'R - short',
+  M_LONG: 'M - long',
+  M_SHORT: 'M - short',
+}
+
+export type ShotShapeGroup = 'full-swing' | 'short-game'
+
+const SHORT_GAME_CLUBS: Club[] = ['GW', 'SW', 'LW', 'Putt']
+
+export function shotShapeGroup(club: Club | null): ShotShapeGroup {
+  return club !== null && SHORT_GAME_CLUBS.includes(club) ? 'short-game' : 'full-swing'
+}
+
+export const SHOT_SHAPES_BY_GROUP: Record<ShotShapeGroup, readonly Exclude<ShotShape, null>[]> = {
+  'full-swing': FULL_SWING_SHAPES,
+  'short-game': SHORT_GAME_SHAPES,
+}
 
 export type ClubCategory = 'wood' | 'iron' | 'putter'
 
@@ -67,7 +115,7 @@ export interface Shot {
   club: Club | null
   distance: number | null
   tag: ShotTag
-  direction: ShotDirection
+  shape: ShotShape
 }
 
 export interface Hole {
@@ -115,7 +163,7 @@ export function createEmptyRound(): Round {
 }
 
 export function createShot(): Shot {
-  return { id: crypto.randomUUID(), club: null, distance: null, tag: defaultTagForClub(null), direction: null }
+  return { id: crypto.randomUUID(), club: null, distance: null, tag: defaultTagForClub(null), shape: null }
 }
 
 export const PAR_TOTAL = (holes: Hole[]) => holes.reduce((sum, h) => sum + h.par, 0)
