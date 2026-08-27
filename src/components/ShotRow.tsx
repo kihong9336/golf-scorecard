@@ -7,7 +7,7 @@ interface Props {
   onDelete: () => void
 }
 
-const TAG_CYCLE: ShotTag[] = [null, 'FW', 'BK', 'HZD', 'OB']
+const TAG_CYCLE: ShotTag[] = [null, 'FW', 'GR', 'BK', 'HZD', 'OB']
 
 export default function ShotRow({ shot, index, onChange, onDelete }: Props) {
   function setDirection(dir: ShotDirection) {
@@ -105,7 +105,9 @@ export default function ShotRow({ shot, index, onChange, onDelete }: Props) {
                 ? 'bg-[var(--color-tag-fw)] text-white'
                 : shot.tag === 'BK'
                   ? 'bg-[var(--color-tag-bk)] text-white'
-                  : 'bg-stone-100 text-stone-300')
+                  : shot.tag === 'GR'
+                    ? 'bg-[var(--color-tag-gr)] text-white'
+                    : 'bg-stone-100 text-stone-300')
         }
       >
         {shot.tag ?? '-'}

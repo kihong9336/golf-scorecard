@@ -38,7 +38,7 @@ export const CLUB_LABELS: Record<Club, string> = {
   Putt: 'Putt',
 }
 
-export type ShotTag = 'OB' | 'HZD' | 'FW' | 'BK' | null
+export type ShotTag = 'OB' | 'HZD' | 'FW' | 'BK' | 'GR' | null
 
 export type ShotDirection = 'L' | 'C' | 'R' | null
 
@@ -95,7 +95,7 @@ export function createEmptyRound(): Round {
 }
 
 export function createShot(): Shot {
-  return { id: crypto.randomUUID(), club: null, distance: null, tag: null, direction: null }
+  return { id: crypto.randomUUID(), club: null, distance: null, tag: 'FW', direction: null }
 }
 
 export const PAR_TOTAL = (holes: Hole[]) => holes.reduce((sum, h) => sum + h.par, 0)
