@@ -66,6 +66,34 @@ export default function App() {
     setRounds((prev) => prev.filter((r) => r.id !== id))
   }
 
+  function handleExportRounds() {
+    const blob = new Blob([JSON.stringify(rounds, null, 2)], { type: 'application/json' })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = `golf-scorecard-backup-${new Date().toISOString().slice(0, 10)}.json`
+    document.body.appendChild(a)
+    a.click()
+    document.body.removeChild(a)
+    URL.revokeObjectURL(url)
+  }
+
+  function handleImportRounds(file: File) {
+    const reader = new FileReader()
+    reader.onload = () => {
+      try {
+        const parsed = JSON.parse(reader.result as string)
+        if (!Array.isArray(parsed)) throw new Error('invalid backup format')
+        if (!confirm(`백업 파일에서 라운드 ${parsed.length}개를 불러옵니다. 현재 기록 목록을 덮어쓸까요?`)) return
+        setRounds(parsed as Round[])
+        alert('가져오기가 완료되었습니다.')
+      } catch {
+        alert('올바른 백업 파일이 아니에요.')
+      }
+    }
+    reader.readAsText(file)
+  }
+
   return (
     <div className="mx-auto min-h-screen max-w-md bg-cream-50">
       <Header holes={currentRound.holes} />
@@ -91,7 +119,13 @@ export default function App() {
       )}
 
       {tab === 'history' && (
-        <HistoryPage rounds={rounds} onOpenRound={handleOpenRound} onDeleteRound={handleDeleteRound} />
+        <HistoryPage
+          rounds={rounds}
+          onOpenRound={handleOpenRound}
+          onDeleteRound={handleDeleteRound}
+          onExport={handleExportRounds}
+          onImport={handleImportRounds}
+        />
       )}
     </div>
   )
