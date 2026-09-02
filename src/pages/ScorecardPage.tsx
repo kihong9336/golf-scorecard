@@ -1,4 +1,4 @@
-import { PAR_TOTAL, SCORE_TOTAL, type Hole, type Round } from '../types'
+import { SCORE_TOTAL, type Hole, type Round } from '../types'
 import HoleCard from '../components/HoleCard'
 
 interface Props {
@@ -11,7 +11,6 @@ interface Props {
 export default function ScorecardPage({ round, onChange, onSaveRound, onCloseRound }: Props) {
   const front9 = round.holes.slice(0, 9)
   const back9 = round.holes.slice(9, 18)
-  const par = PAR_TOTAL(round.holes)
 
   function updateHole(updated: Hole) {
     onChange({
@@ -43,8 +42,8 @@ export default function ScorecardPage({ round, onChange, onSaveRound, onCloseRou
           <div className="text-2xl font-bold text-stone-800">{SCORE_TOTAL(back9) || 0}</div>
         </div>
         <div>
-          <div className="text-xs text-stone-400">Par</div>
-          <div className="text-2xl font-bold text-stone-800">{par}</div>
+          <div className="text-xs text-stone-400">Total</div>
+          <div className="text-2xl font-bold text-stone-800">{SCORE_TOTAL(round.holes) || 0}</div>
         </div>
       </div>
 

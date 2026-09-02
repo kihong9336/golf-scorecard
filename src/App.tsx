@@ -96,7 +96,7 @@ export default function App() {
 
   return (
     <div className="mx-auto min-h-screen max-w-md bg-cream-50">
-      <Header holes={currentRound.holes} />
+      <Header />
       <Tabs active={tab} onChange={setTab} />
 
       {tab === 'home' && (
