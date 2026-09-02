@@ -11,14 +11,14 @@ const scorecard = readFileSync(new URL('../src/pages/ScorecardPage.tsx', import.
 const compactLabels = {
   STRAIGHT: 'ST', DRAW: 'DR', FADE: 'FD', SLICE: 'SL', HOOK: 'HK',
   PUSH: 'PS', PULL: 'PL', TOP: 'TS', FAT: 'DF', SHANK: 'SK',
-  GOOD: 'Gd', L_LONG: 'LL', L_SHORT: 'LS', R_LONG: 'RL', R_SHORT: 'RS',
+  GOOD: 'HI', L_LONG: 'LL', L_SHORT: 'LS', R_LONG: 'RL', R_SHORT: 'RS',
   M_LONG: 'ML', M_SHORT: 'MS',
 }
 
 const fullLabels = {
   STRAIGHT: '스트레이트', DRAW: '드로우', FADE: '페이드', SLICE: '슬라이스', HOOK: '훅',
   PUSH: '푸쉬', PULL: '풀', TOP: '탑볼', FAT: '뒷땅', SHANK: '생크',
-  GOOD: 'Good', L_LONG: 'L-long', L_SHORT: 'L-short', R_LONG: 'R-long', R_SHORT: 'R-short',
+  GOOD: 'Hole In', L_LONG: 'L-long', L_SHORT: 'L-short', R_LONG: 'R-long', R_SHORT: 'R-short',
   M_LONG: 'M-long', M_SHORT: 'M-short',
 }
 
