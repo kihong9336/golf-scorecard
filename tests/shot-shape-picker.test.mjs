@@ -10,7 +10,7 @@ const scorecard = readFileSync(new URL('../src/pages/ScorecardPage.tsx', import.
 
 const compactLabels = {
   STRAIGHT: 'ST', DRAW: 'DR', FADE: 'FD', SLICE: 'SL', HOOK: 'HK',
-  PUSH: 'PS', PULL: 'PL', TOP: 'TP', FAT: 'FT', SHANK: 'SK',
+  PUSH: 'PS', PULL: 'PL', TOP: 'TS', FAT: 'DF', SHANK: 'SK',
   GOOD: 'Gd', L_LONG: 'LL', L_SHORT: 'LS', R_LONG: 'RL', R_SHORT: 'RS',
   M_LONG: 'ML', M_SHORT: 'MS',
 }
@@ -30,6 +30,12 @@ function readLabelMap(source, exportName) {
   )
 }
 
+function readStringArray(source, exportName) {
+  const match = source.match(new RegExp(`export const ${exportName} = \\[([\\s\\S]*?)\\] as const`))
+  assert.ok(match, `${exportName} must be exported`)
+  return [...match[1].matchAll(/'([^']+)'/g)].map(([, value]) => value)
+}
+
 test('shot shapes keep exact compact labels after selection', () => {
   assert.deepEqual(readLabelMap(types, 'SHOT_SHAPE_LABELS'), compactLabels)
 })
@@ -40,6 +46,12 @@ test('shot-shape choices expose the exact full labels while selecting', () => {
   assert.match(shotRow, /onFocus=.*setShapePickerOpen\(true\)/)
   assert.match(shotRow, /onBlur=.*setShapePickerOpen\(false\)/)
   assert.match(shotRow, /shapePickerOpen\s*\?\s*SHOT_SHAPE_OPTION_LABELS\[s\]\s*:\s*SHOT_SHAPE_LABELS\[s\]/)
+})
+
+test('wedge and putter choices include top, fat, and shank mishits', () => {
+  assert.deepEqual(readStringArray(types, 'SHORT_GAME_SHAPES'), [
+    'GOOD', 'L_LONG', 'L_SHORT', 'R_LONG', 'R_SHORT', 'M_LONG', 'M_SHORT', 'TOP', 'FAT', 'SHANK',
+  ])
 })
 
 test('running score lives in the OUT/IN summary instead of the header', () => {

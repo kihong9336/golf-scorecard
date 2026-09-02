@@ -53,7 +53,18 @@ export const FULL_SWING_SHAPES = [
   'SHANK',
 ] as const
 
-export const SHORT_GAME_SHAPES = ['GOOD', 'L_LONG', 'L_SHORT', 'R_LONG', 'R_SHORT', 'M_LONG', 'M_SHORT'] as const
+export const SHORT_GAME_SHAPES = [
+  'GOOD',
+  'L_LONG',
+  'L_SHORT',
+  'R_LONG',
+  'R_SHORT',
+  'M_LONG',
+  'M_SHORT',
+  'TOP',
+  'FAT',
+  'SHANK',
+] as const
 
 export type ShotShape = (typeof FULL_SWING_SHAPES)[number] | (typeof SHORT_GAME_SHAPES)[number] | null
 
@@ -65,8 +76,8 @@ export const SHOT_SHAPE_LABELS: Record<Exclude<ShotShape, null>, string> = {
   HOOK: 'HK',
   PUSH: 'PS',
   PULL: 'PL',
-  TOP: 'TP',
-  FAT: 'FT',
+  TOP: 'TS',
+  FAT: 'DF',
   SHANK: 'SK',
   GOOD: 'Gd',
   L_LONG: 'LL',
