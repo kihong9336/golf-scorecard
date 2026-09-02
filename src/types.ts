@@ -77,6 +77,26 @@ export const SHOT_SHAPE_LABELS: Record<Exclude<ShotShape, null>, string> = {
   M_SHORT: 'MS',
 }
 
+export const SHOT_SHAPE_OPTION_LABELS: Record<Exclude<ShotShape, null>, string> = {
+  STRAIGHT: '스트레이트',
+  DRAW: '드로우',
+  FADE: '페이드',
+  SLICE: '슬라이스',
+  HOOK: '훅',
+  PUSH: '푸쉬',
+  PULL: '풀',
+  TOP: '탑볼',
+  FAT: '뒷땅',
+  SHANK: '생크',
+  GOOD: 'Good',
+  L_LONG: 'L-long',
+  L_SHORT: 'L-short',
+  R_LONG: 'R-long',
+  R_SHORT: 'R-short',
+  M_LONG: 'M-long',
+  M_SHORT: 'M-short',
+}
+
 export type ShotShapeGroup = 'full-swing' | 'short-game'
 
 const SHORT_GAME_CLUBS: Club[] = ['GW', 'SW', 'LW', 'Putt']

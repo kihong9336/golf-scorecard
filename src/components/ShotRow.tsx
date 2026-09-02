@@ -1,8 +1,10 @@
+import { useState } from 'react'
 import {
   CLUBS,
   CLUB_LABELS,
   SHOT_SHAPES_BY_GROUP,
   SHOT_SHAPE_LABELS,
+  SHOT_SHAPE_OPTION_LABELS,
   TAG_CYCLE_BY_CATEGORY,
   clubCategory,
   defaultTagForClub,
@@ -27,6 +29,8 @@ const TAG_COLOR_CLASS: Record<string, string> = {
 }
 
 export default function ShotRow({ shot, index, onChange, onDelete }: Props) {
+  const [shapePickerOpen, setShapePickerOpen] = useState(false)
+
   function handleClubChange(newClub: Shot['club']) {
     const categoryChanged = clubCategory(newClub) !== clubCategory(shot.club)
     const shapeGroupChanged = shotShapeGroup(newClub) !== shotShapeGroup(shot.club)
@@ -74,13 +78,19 @@ export default function ShotRow({ shot, index, onChange, onDelete }: Props) {
 
       <select
         value={shot.shape ?? ''}
-        onChange={(e) => onChange({ ...shot, shape: (e.target.value || null) as Shot['shape'] })}
+        onPointerDown={() => setShapePickerOpen(true)}
+        onFocus={() => setShapePickerOpen(true)}
+        onBlur={() => setShapePickerOpen(false)}
+        onChange={(e) => {
+          onChange({ ...shot, shape: (e.target.value || null) as Shot['shape'] })
+          setShapePickerOpen(false)
+        }}
         className="w-14 min-w-0 shrink-0 rounded-lg border border-stone-300 bg-white px-1 py-2 text-base text-stone-700"
       >
         <option value="">구질</option>
         {shapeOptions.map((s) => (
           <option key={s} value={s}>
-            {SHOT_SHAPE_LABELS[s]}
+            {shapePickerOpen ? SHOT_SHAPE_OPTION_LABELS[s] : SHOT_SHAPE_LABELS[s]}
           </option>
         ))}
       </select>
